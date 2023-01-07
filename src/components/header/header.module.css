@@ -1,0 +1,26 @@
+.container{
+    height: 5rem;
+    border-bottom: solid 1px #dbdbdb
+}
+.wrapper{
+    margin: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    align-items: center;
+    gap: 10rem;
+    color: #344054 ;
+    font-weight: 400;
+    
+}
+.imgWrapper{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #344054 ;
+}
+.logo{
+    width: 4rem;
+    height: 4rem;
+}
