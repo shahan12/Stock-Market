@@ -3,14 +3,7 @@ import classes from "./table.module.css";
 import sortIconUp from "../../assets/images/sortUp.png";
 import sortedIconUp from "../../assets/images/sortUpblack.png";
 
-function Table({
-  tableHeader,
-  tableData,
-  tableType,
-  handleClick,
-  setSortIcon,
-  sortIcon,
-}) {
+function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
   return (
     <div
       className={`${classes.table} ${

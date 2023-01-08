@@ -32,6 +32,7 @@ function StockPage() {
     "IFCI,IFCI Ltd.,Financial Services,2023-01-05 08:46:46",
   ]);
   const [tableHeader, setTableHeader] = useState([]);
+  const [sort, setSortIcon] = useState({ asc: false, dsc: false });
 
   /**
    *
