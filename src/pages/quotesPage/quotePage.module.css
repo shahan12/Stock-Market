@@ -1,0 +1,16 @@
+.tableWrapper{
+    margin: 0 3rem;
+}
+.container{
+    background-color: #F4F4F4;
+    height: 100%;
+}
+.pageName{
+    display: flex;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    color: #344054;
+    font-weight: 400;
+}
