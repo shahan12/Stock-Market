@@ -14,7 +14,7 @@ function QuotePage() {
   const [headerData, setHeaderData] = useState([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [sortIcon, setSortIcon] = useState({ asc: false, dsc: false });
-  const [trigger, setTrigger] = useState(false);
+  // const [trigger, setTrigger] = useState(false);
   /**
    *
    * @param {*} sortType
