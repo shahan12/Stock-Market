@@ -2,7 +2,8 @@ import React from "react";
 import classes from "../header/header.module.css";
 import Logo from "../../assets/images/Logo.png";
 import { Link } from "react-router-dom";
-function Header() {
+
+const Header = () => {
   return (
     <article className={classes.container}>
       <header className={classes.wrapper}>
@@ -13,6 +14,6 @@ function Header() {
       </header>
     </article>
   );
-}
+};
 
 export default Header;

@@ -6,11 +6,12 @@ import { TextField } from "@mui/material";
 import { basePoint, massageData } from "../../utils";
 import FuzzySearch from "fuzzy-search";
 import { useHistory } from "react-router-dom";
-function StockPage() {
+
+const StockPage = () => {
   const history = useHistory();
   const [stockTableData, setStockTableData] = useState([]);
+  const [apiData, setApiData] = useState([]);
   const [tableHeader, setTableHeader] = useState([]);
-  const [sort, setSortIcon] = useState({ asc: false, dsc: false });
 
   /**
    *
@@ -38,13 +39,13 @@ function StockPage() {
         values = values.slice(0, -1);
         let formattedData = massageData(values);
         setStockTableData(formattedData);
+        setApiData(formattedData);
         setTableHeader(values[0].split(","));
       }
     } catch (err) {
       console.log("Something went wrong");
     }
   };
-
   /**
    *
    * @param {*} e
@@ -53,8 +54,8 @@ function StockPage() {
    */
 
   const handleChange = (e) => {
-    const initiateSearch = new FuzzySearch(convertedData, ["Symbol", "Name"]);
-    setStockTableData(initiateSearch.search(e.target.value));
+    const initiateSearch = new FuzzySearch(apiData, ["Symbol", "Name"]);
+    setStockTableData([...initiateSearch.search(e.target.value)]);
   };
 
   /**
@@ -86,6 +87,6 @@ function StockPage() {
       </div>
     </article>
   );
-}
+};
 
 export default StockPage;

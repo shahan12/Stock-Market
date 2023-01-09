@@ -10,7 +10,27 @@
     font-size: 2rem;
     align-items: center;
     justify-content: center;
-    padding-top: 2rem;
+    
     color: #344054;
     font-weight: 400;
+}
+.backBtn{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #344054 ;
+}
+.headerContainer{
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+    padding-top: 2rem;
+    margin-left: 3rem;
+}
+.loader{
+    margin-top: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

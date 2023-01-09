@@ -1,19 +1,23 @@
+import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Table from "../../components/table/table.component";
 import { getService } from "../../services/getService";
 import { basePoint } from "../../utils";
 import classes from "./quotePage.module.css";
-function QuotePage() {
+
+const QuotePage = () => {
   const history = useHistory();
   var fetchURL = history.location.search && history.location.search.split("=");
   const id = fetchURL[fetchURL.length - 1];
   const [quotesData, setQuotesData] = useState({});
+  const [loader, setLoader] = useState(true);
 
   const [quotes, setQuotes] = useState([]);
   const [headerData, setHeaderData] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(0);
   const [sortIcon, setSortIcon] = useState({ asc: false, dsc: false });
+  let positiveSetTime;
+  let negativeSetTime;
   // const [trigger, setTrigger] = useState(false);
   /**
    *
@@ -49,6 +53,13 @@ function QuotePage() {
     }
   };
 
+  /**
+   *
+   * @param {*} itm
+   * Function for refreshing the page if the valid_till exceeds the current time
+   *
+   */
+
   const checkForvalidTime = (itm) => {
     let minTime = new Date(itm[0].valid_till).getTime() + 5.5 * 60 * 60 * 1000;
     for (let obj of itm) {
@@ -67,6 +78,7 @@ function QuotePage() {
     } else {
       setQuotes(itm);
       setHeaderData(Object.keys(itm[0]));
+      setLoader(false);
       positiveSetTime = setTimeout(() => {
         getQuotesData();
       }, minTime - Date.now());
@@ -104,6 +116,7 @@ function QuotePage() {
 
   const getQuotesData = async () => {
     try {
+      setLoader(true);
       const response = await getService(`${basePoint}/quotes/${id}`);
       if (response) {
         var value = response.data;
@@ -111,12 +124,16 @@ function QuotePage() {
         if (value.success === true) {
           checkForvalidTime(value.payload[id]);
         } else {
+          setLoader(false);
           setQuotes([]);
           setHeaderData([]);
         }
       }
-    } catch {
-      console.log("Something went Wrong");
+    } catch (e) {
+      setLoader(false);
+      setQuotes([]);
+      setHeaderData([]);
+      console.log(e, "Something went Wrong");
     }
   };
 
@@ -124,14 +141,22 @@ function QuotePage() {
     getQuotesData();
   }, []);
 
-  // useEffect(() => {
-  //   checkForvalidTime(quotes);
-  // }, [quotes.length > 0]);
+  if (loader)
+    return (
+      <div className={classes.loader}>
+        <CircularProgress />{" "}
+      </div>
+    );
 
   return (
     <article className={classes.container}>
-      <div className={classes.pageName}>QUOTES TABLE FOR {id}</div>
-
+      <div className={classes.headerContainer}>
+        <Link to={"/instruments"} className={classes.backBtn}>
+          {" "}
+          BACK{" "}
+        </Link>
+        <div className={classes.pageName}>QUOTES TABLE FOR {id}</div>
+      </div>
       <div className={classes.tableWrapper}>
         <Table
           tableHeader={headerData}
@@ -144,6 +169,6 @@ function QuotePage() {
       </div>
     </article>
   );
-}
+};
 
 export default QuotePage;

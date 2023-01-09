@@ -3,18 +3,27 @@ import classes from "./table.module.css";
 import sortIconUp from "../../assets/images/sortUp.png";
 import sortedIconUp from "../../assets/images/sortUpblack.png";
 
-function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
+const Table = ({
+  tableHeader,
+  tableData,
+  tableType,
+  handleClick,
+  sortIcon,
+}) => {
+  /**
+   *
+   * @param {*} data
+   * @returns
+   * Function to converted Date from UCT to IST
+   */
+
   const getDateConverted = (data) => {
     var dateUTC = new Date(data);
     var dateUTC = dateUTC.getTime();
     var dateIST = new Date(dateUTC);
-    //date shifting for IST timezone (+5 hours and 30 minutes)
     dateIST.setHours(dateIST.getHours() + 5);
     dateIST.setMinutes(dateIST.getMinutes() + 30);
     return String(dateIST);
-    // new Date(val).getTime().toLocaleString("en-US", {
-    //   timeZone: "Asia/Kolkata",
-    // })
   };
 
   return (
@@ -32,7 +41,7 @@ function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
                 id={`Header_${index}`}
                 className={`${classes.header} ${classes.sortwrapper}`}
               >
-                <span>{item}</span>
+                <span className={classes.headerText}>{item.toUpperCase()}</span>
                 <div className={classes.iconscontainer}>
                   <img
                     src={sortIcon.asc ? sortedIconUp : sortIconUp}
@@ -56,7 +65,7 @@ function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
                 id={`Header_${index}`}
                 className={classes.header}
               >
-                {item}
+                <span className={classes.headerText}>{item.toUpperCase()}</span>
               </div>
             );
           })}
@@ -98,6 +107,6 @@ function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
       </div>
     </div>
   );
-}
+};
 
 export default Table;
