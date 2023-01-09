@@ -14,12 +14,7 @@ function QuotePage() {
   const [headerData, setHeaderData] = useState([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [sortIcon, setSortIcon] = useState({ asc: false, dsc: false });
-  var negativeSetTime;
-  var positiveSetTime;
-
-  useEffect(() => {
-    return [clearTimeout(negativeSetTime), clearTimeout(positiveSetTime)];
-  }, []);
+  // const [trigger, setTrigger] = useState(false);
   /**
    *
    * @param {*} sortType
@@ -77,6 +72,35 @@ function QuotePage() {
       }, minTime - Date.now());
     }
   };
+
+  // const checkForvalidTime = (itm) => {
+  //   let minTime = new Date(itm[0].valid_till).getTime() + 5.5 * 60 * 60 * 1000;
+  //   let count = 0;
+  //   for (let obj of itm) {
+  //     if (
+  //       new Date(obj.valid_till).getTime() + 5.5 * 60 * 60 * 1000 <
+  //       Date.now()
+  //     ) {
+  //       getQuotesData();
+  //       return false;
+  //     } else {
+  //       count = count + 1;
+  //       if (
+  //         new Date(obj.valid_till).getTime() + 5.5 * 60 * 60 * 1000 <
+  //         minTime
+  //       ) {
+  //         minTime = new Date(obj.valid_till).getTime() + 5.5 * 60 * 60 * 1000;
+  //       }
+  //     }
+  //   }
+  //   if (count === itm.length) {
+  //     setQuotes(itm);
+  //     setHeaderData(Object.keys(itm[0]));
+  //     setTimeout(() => {
+  //       getQuotesData();
+  //     }, minTime - Date.now());
+  //   }
+  // };
 
   const getQuotesData = async () => {
     try {
