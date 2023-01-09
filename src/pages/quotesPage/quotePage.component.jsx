@@ -18,7 +18,6 @@ const QuotePage = () => {
   const [sortIcon, setSortIcon] = useState({ asc: false, dsc: false });
   let positiveSetTime;
   let negativeSetTime;
-  // const [trigger, setTrigger] = useState(false);
   /**
    *
    * @param {*} sortType

@@ -94,7 +94,8 @@ const Table = ({
                   id={`cell_${index}`}
                   className={classes.collumn}
                 >
-                  {(tableType === "quotes" && index === 1) || index === 2 ? (
+                  {(tableType === "quotes" && index === 1) ||
+                  (tableType === "quotes" && index === 2) ? (
                     <span>{getDateConverted(val)}</span>
                   ) : (
                     <span>{val}</span>

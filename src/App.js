@@ -6,10 +6,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/header/header.component";
 
 function App() {
-  // useEffect(()=>{
-  //   if(window.localtion.href.includes('./'))
-  // },[])
-
   return (
     <article className="App">
       <Header />

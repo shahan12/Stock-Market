@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../../components/table/table.component";
 import { getService } from "../../services/getService";
 import classes from "./stockPage.module.css";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { basePoint, massageData } from "../../utils";
 import FuzzySearch from "fuzzy-search";
 import { useHistory } from "react-router-dom";
@@ -11,6 +11,7 @@ const StockPage = () => {
   const history = useHistory();
   const [stockTableData, setStockTableData] = useState([]);
   const [apiData, setApiData] = useState([]);
+  const [loader, setLoader] = useState(true);
   const [tableHeader, setTableHeader] = useState([]);
 
   /**
@@ -33,6 +34,7 @@ const StockPage = () => {
    */
   const getSockPageData = async () => {
     try {
+      setLoader(true);
       const response = await getService(`${basePoint}/instruments`);
       if (response && response?.data) {
         var values = response.data.split("\n");
@@ -41,6 +43,7 @@ const StockPage = () => {
         setStockTableData(formattedData);
         setApiData(formattedData);
         setTableHeader(values[0].split(","));
+        setLoader(false);
       }
     } catch (err) {
       console.log("Something went wrong");
@@ -64,6 +67,13 @@ const StockPage = () => {
   useEffect(() => {
     getSockPageData();
   }, []);
+
+  if (loader)
+    return (
+      <div className={classes.loader}>
+        <CircularProgress />{" "}
+      </div>
+    );
 
   return (
     <article className={classes.container}>
