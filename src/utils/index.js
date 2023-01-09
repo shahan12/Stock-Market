@@ -9,9 +9,5 @@ export const massageData = (arr) => {
     }
     convertedData.push(obj);
   }
-  JSON.stringify(convertedData);
-
   return convertedData;
 };
-
-export const basePoint = "https://prototype.sbulltech.com/api/v2";
