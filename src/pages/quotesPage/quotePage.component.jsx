@@ -14,7 +14,12 @@ function QuotePage() {
   const [headerData, setHeaderData] = useState([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [sortIcon, setSortIcon] = useState({ asc: false, dsc: false });
-  // const [trigger, setTrigger] = useState(false);
+  var negativeSetTime;
+  var positiveSetTime;
+
+  useEffect(() => {
+    return [clearTimeout(negativeSetTime), clearTimeout(positiveSetTime)];
+  }, []);
   /**
    *
    * @param {*} sortType
@@ -50,21 +55,27 @@ function QuotePage() {
   };
 
   const checkForvalidTime = (itm) => {
-    let minTime = new Date(itm[0].valid_till).getTime();
-    itm.every(({ valid_till }) => {
-      if (new Date(valid_till).getTime() < Date.now()) {
-        // setTrigger((previous) => !previous);
-        getQuotesData();
-        return false;
-      } else {
-        if (new Date(valid_till).getTime() < minTime) {
-          minTime = new Date(valid_till).getTime();
-        }
+    let minTime = new Date(itm[0].valid_till).getTime() + 5.5 * 60 * 60 * 1000;
+    for (let obj of itm) {
+      if (new Date(obj.valid_till).getTime() + 5.5 * 60 * 60 * 1000 < minTime) {
+        minTime = new Date(obj.valid_till).getTime() + 5.5 * 60 * 60 * 1000;
       }
-    });
-    // setTimeout(() => {
-    //   getQuotesData();
-    // }, [minTime]);
+    }
+
+    if (minTime - Date.now() <= 0) {
+      if (negativeSetTime) {
+        clearTimeout(negativeSetTime);
+      }
+      negativeSetTime = setTimeout(() => {
+        getQuotesData();
+      }, 2000);
+    } else {
+      setQuotes(itm);
+      setHeaderData(Object.keys(itm[0]));
+      positiveSetTime = setTimeout(() => {
+        getQuotesData();
+      }, minTime - Date.now());
+    }
   };
 
   const getQuotesData = async () => {
@@ -74,9 +85,7 @@ function QuotePage() {
         var value = response.data;
         setQuotesData(value);
         if (value.success === true) {
-          setQuotes(value.payload[id]);
-          setHeaderData(Object.keys(value.payload[id][0]));
-          // checkForvalidTime(value.payload[id]);
+          checkForvalidTime(value.payload[id]);
         } else {
           setQuotes([]);
           setHeaderData([]);
@@ -89,8 +98,11 @@ function QuotePage() {
 
   useEffect(() => {
     getQuotesData();
-    // checkForvalidTime();
   }, []);
+
+  // useEffect(() => {
+  //   checkForvalidTime(quotes);
+  // }, [quotes.length > 0]);
 
   return (
     <article className={classes.container}>

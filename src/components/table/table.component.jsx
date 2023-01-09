@@ -4,6 +4,19 @@ import sortIconUp from "../../assets/images/sortUp.png";
 import sortedIconUp from "../../assets/images/sortUpblack.png";
 
 function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
+  const getDateConverted = (data) => {
+    var dateUTC = new Date(data);
+    var dateUTC = dateUTC.getTime();
+    var dateIST = new Date(dateUTC);
+    //date shifting for IST timezone (+5 hours and 30 minutes)
+    dateIST.setHours(dateIST.getHours() + 5);
+    dateIST.setMinutes(dateIST.getMinutes() + 30);
+    return String(dateIST);
+    // new Date(val).getTime().toLocaleString("en-US", {
+    //   timeZone: "Asia/Kolkata",
+    // })
+  };
+
   return (
     <div
       className={`${classes.table} ${
@@ -72,7 +85,11 @@ function Table({ tableHeader, tableData, tableType, handleClick, sortIcon }) {
                   id={`cell_${index}`}
                   className={classes.collumn}
                 >
-                  {val}
+                  {(tableType === "quotes" && index === 1) || index === 2 ? (
+                    <span>{getDateConverted(val)}</span>
+                  ) : (
+                    <span>{val}</span>
+                  )}
                 </div>
               )
             )}
